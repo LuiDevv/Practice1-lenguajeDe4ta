@@ -1,0 +1,39 @@
+body {
+    background: #f7faff;
+    overflow-y: hidden;
+}
+
+.arena {
+    background-image: url("assets/battle-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center; 
+    height: 75vh;
+    width: 75vw;
+}
+
+#player {
+    position: absolute;
+    right: 27vw;
+    bottom: -20.5vh;
+    color: #fff;
+}
+
+#cpu {
+    position: absolute;
+    left: 42vw;
+    top: -12.5vh;
+    color: #fff;
+}
+
+#sprite {
+    height: 80vh;
+    width: 33vw;
+    object-fit: contain;
+}
+
+#sprite-cpu {
+    height: 50vh;
+    width: 33vw;
+    object-fit: contain;
+}
