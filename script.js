@@ -16,38 +16,31 @@ const healButton = document.getElementById("heal-button");
 const runButton = document.getElementById("run-button");
 
 // Players
-let player1 = {pokemon: null};
-let cpu = {pokemon: null};
+let player1 = { pokemon: null };
+let cpu = { pokemon: null };
 
 const pokemonUrl = "https://pokeapi-proxy.freecodecamp.rocks/api/pokemon";
 
 class Pokemon {
   constructor(name, id, weight, height, stats, types, hpElement, spriteElement) {
-    // Variables
     this.name = name;
     this.id = id;
     this.weight = weight;
     this.height = height;
-    this.attack = Pokemon.findStat(stats, 'attack');
-    this.hp = Pokemon.findStat(stats, 'hp');
+    this.attack = Pokemon.findStat(stats, "attack");
+    this.hp = Pokemon.findStat(stats, "hp");
     this.types = types;
-
-    // DOM Elements
     this.hpElement = hpElement;
     this.spriteElement = spriteElement;
+    this.blinkInterval = null; // Controla el parpadeo
   }
 
   static findStat(stats, name) {
-    const foundStat = stats.find(stat => {
-      return stat["stat"]["name"] === name;
-    })
+    const foundStat = stats.find((stat) => stat["stat"]["name"] === name);
     return foundStat["base_stat"];
   }
-  
 
-  static async searchPokemon(
-    query, playerName, spriteElement, position, playerHP, player
-  ) {
+  static async searchPokemon(query, playerName, spriteElement, position, playerHP, player) {
     let response;
 
     try {
@@ -64,53 +57,82 @@ class Pokemon {
 
     playerName.textContent = name.toUpperCase();
     spriteElement.src = sprites[position];
-    spriteElement.style.visibility = 'visible';
+    spriteElement.style.visibility = "visible";
     playerHP.textContent = Pokemon.findStat(stats, "hp");
+  }
+
+  startBlinking() {
+    if (this.blinkInterval) return;
+    this.blinkInterval = setInterval(() => {
+      this.spriteElement.style.visibility =
+        this.spriteElement.style.visibility === "hidden" ? "visible" : "hidden";
+    }, 500);
+  }
+
+  stopBlinking() {
+    if (this.blinkInterval) {
+      clearInterval(this.blinkInterval);
+      this.blinkInterval = null;
+      this.spriteElement.style.visibility = "visible";
+    }
   }
 
   performAttack(defender) {
     const damage = Math.floor(Math.random() * this.attack) + 1;
     defender.hp -= damage;
     if (defender.hp < 0) defender.hp = 0;
-  
+
     defender.hpElement.textContent = defender.hp;
-  
+
+    alert(`${this.name} ha atacado a ${defender.name} causando ${damage} de daño.`);
+
+    if (defender.hp <= 20) {
+      defender.startBlinking();
+    }
+
     if (defender.hp === 0) {
       alert(`${defender.name} ha sido derrotado.`);
+      defender.stopBlinking();
+      location.reload();
     }
-  };
-  
-   heal() {
+  }
+
+  heal() {
     const healAmount = Math.floor(this.hp / 5);
     this.hp += healAmount;
-    if (this.hp > 100) { this.hp = 100 };
+    if (this.hp > 100) {
+      this.hp = 100;
+    }
     this.hpElement.textContent = this.hp;
-  };
-  
+
+    alert(`${this.name} se ha curado ${healAmount} puntos de vida.`);
+
+    if (this.hp > 20) {
+      this.stopBlinking();
+    }
+  }
 }
 
-
 // Event listeners
-searchButton.addEventListener("click" , () => Pokemon.searchPokemon(
-  searchInput.value.toLowerCase(), pokemonName, sprite, "back_default", hp, player1
-));
+searchButton.addEventListener("click", () =>
+  Pokemon.searchPokemon(searchInput.value.toLowerCase(), pokemonName, sprite, "back_default", hp, player1)
+);
 
-searchButtonCPU.addEventListener("click" , () => Pokemon.searchPokemon(
-  searchInputCPU.value.toLowerCase(), pokemonNameCPU, spriteCPU, "front_default", hpCPU, cpu
-));
+searchButtonCPU.addEventListener("click", () =>
+  Pokemon.searchPokemon(searchInputCPU.value.toLowerCase(), pokemonNameCPU, spriteCPU, "front_default", hpCPU, cpu)
+);
 
 attackButton.addEventListener("click", () => {
   if (!player1.pokemon || !cpu.pokemon) {
     alert("Primero selecciona tus Pokémon.");
-    return
+    return;
   }
 
   player1.pokemon.performAttack(cpu.pokemon, hpCPU);
 
   if (cpu.pokemon.hp > 0) {
     setTimeout(() => {
-      console.log("Defender attacking")
-      cpu.pokemon.performAttack(player1.pokemon, hp)
+      cpu.pokemon.performAttack(player1.pokemon, hp);
     }, 1000);
   }
 });
@@ -118,15 +140,21 @@ attackButton.addEventListener("click", () => {
 healButton.addEventListener("click", () => {
   if (!player1.pokemon || !cpu.pokemon) {
     alert("Primero selecciona tus Pokémon.");
-    return
+    return;
   }
 
   player1.pokemon.heal(hp);
+
+  if (cpu.pokemon.hp > 0) {
+    setTimeout(() => {
+      cpu.pokemon.performAttack(player1.pokemon, hp);
+    }, 1000);
+  }
 });
 
 const run = () => {
   alert("Has huido del combate. ¡Juego terminado!");
-  location.reload(); 
+  location.reload();
 };
 
 runButton.addEventListener("click", () => run());
