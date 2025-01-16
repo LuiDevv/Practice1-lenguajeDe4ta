@@ -14,8 +14,7 @@ const specialAttack = document.getElementById("special-attack");
 const specialDefense = document.getElementById("special-defense");
 const speed = document.getElementById("speed");
 
-const pokemonUrl = "https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/{name-or-id}"
-
+const pokemonUrl = "https://pokeapi-proxy.freecodecamp.rocks/api/pokemon/";
 
 const findStat = (stats, name) => {
   const foundStat = stats.find(stat => {
@@ -26,14 +25,11 @@ const findStat = (stats, name) => {
 
 
 const searchPokemon = async (query, playerName, correspondingSprite, position, playerHP) => {
-  const input = query;
-  const url = pokemonUrl.replace(/{name-or-id}/, input)
-
   let response;
   let pokemon;
 
   try {
-    response = await fetch(url);
+    response = await fetch(`${url}/${query}`);
     pokemon = await response.json();
   } catch (err) {
     alert("Pokémon not found");
@@ -54,6 +50,7 @@ const searchPokemon = async (query, playerName, correspondingSprite, position, p
 searchButton.addEventListener("click" , () => searchPokemon(
   searchInput.value.toLowerCase(), pokemonName, sprite, "back_default", hp
 ));
+
 searchButtonCPU.addEventListener("click" , () => searchPokemon(
   searchInputCPU.value.toLowerCase(), pokemonNameCPU, spriteCPU, "front_default", hpCPU
 ));
