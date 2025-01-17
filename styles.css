@@ -1,29 +1,31 @@
+/* General Styles */
 body {
     background: url("assets/green.png") no-repeat center center fixed;
     background-size: cover;
+    color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
     margin: 0;
+    min-height: 100vh;
     padding: 0;
     position: relative;
-    min-height: 100vh;
-    font-family: 'Arial', sans-serif;
-    color: #f8f9fa;
 }
 
 body::before {
+    background: rgba(0, 0, 0, 0.7);
     content: "";
+    height: 100vh;
+    left: 0;
     position: fixed;
     top: 0;
-    left: 0;
     width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
     z-index: -1;
 }
 
+/* Header Styles */
 header {
-    position: relative;
     background: transparent;
     padding: 20px 0;
+    position: relative;
     z-index: 1;
 }
 
@@ -32,98 +34,100 @@ header {
 }
 
 .logo-img {
-    max-width: 300px;
     height: auto;
+    max-width: 300px;
     z-index: 2;
 }
 
+/* Progress Bar */
 .hp-bar {
-    height: 2rem;
     background: #4caf50; /* Green color */
+    height: 2rem;
     width: 100%;
 }
 
+/* Arena Styles */
 .arena {
     background-image: url("assets/battle-background.jpg");
+    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
-    height: 85vh;
-    width: 75vw;
-    margin: 20px auto;
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    height: 100vh;
+    margin-top: 100px;
+    width: 75vw;
 }
 
+/* Player and CPU */
 #player, #cpu {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 #player {
-    position: absolute;
-    right: 27vw;
     bottom: -20.5vh;
     color: #ffcccb;
+    position: absolute;
+    right: 27vw;
 }
 
 #cpu {
-    position: absolute;
-    left: 42vw;
-    top: -12.5vh;
     color: #c1e1ff;
+    left: 42vw;
+    position: absolute;
+    top: -12.5vh;
 }
 
-#sprite {
-    height: 80vh;
-    width: 33vw;
-    object-fit: contain;
+/* Sprite Styles */
+#sprite, #sprite-cpu {
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+    height: 80vh;
+    object-fit: contain;
+    width: 33vw;
 }
 
 #sprite-cpu {
     height: 50vh;
-    width: 33vw;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
 }
 
+/* Buttons */
 button {
-    font-size: 1.1rem;
-    padding: 10px 20px;
     border: none;
     border-radius: 8px;
-    transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 button:hover {
-    transform: scale(1.05);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
 }
 
 button:active {
-    transform: scale(0.95);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
 }
 
-
+/* Game Terminal */
 #game-terminal {
-    position: absolute;
+    background-color: rgb(0, 0, 0, 0.7);
+    border-bottom: 2px solid red;
+    border-top: 2px solid red;
     bottom: 1rem;
+    color: #fff;
     height: 10vh;
     max-height: 10vh;
     overflow-y: auto;
-    background-color: rgb(0, 0, 0, 0.7);
-    z-index: 999;
+    position: absolute;
     width: 100%;
-    border-top: 2px solid red;
-    border-bottom: 2px solid red;
-    color: #fff;
+    z-index: 999;
 }
 
-/* Attack animation */
+/* Animations */
 @keyframes attack {
     0%, 100% {
         opacity: 1; /* Fully visible */
@@ -133,18 +137,18 @@ button:active {
     }
 }
 
-.receive-attack::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: red;
-    opacity: 0;
-    animation: attack 0.5s infinite alternate;
-  }
-  
 .receive-attack {
     animation: attack 0.5s infinite alternate;
+}
+
+.receive-attack::after {
+    animation: attack 0.5s infinite alternate;
+    background-color: red;
+    content: "";
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }

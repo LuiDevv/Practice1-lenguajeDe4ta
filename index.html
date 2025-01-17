@@ -15,12 +15,12 @@
 
     <div class="d-flex flex-column align-items-center justify-content-center h-100">
       <!-- Contenedor de búsqueda -->
-      <div class="row border rounded bg-light w-75 p-3 mb-3 shadow-sm" style="z-index: 999;">
-        <div class="col-lg-6 d-flex">
+      <div class="d-flex border rounded bg-light p-3 mb-3 shadow-sm" style="z-index: 999;">
+        <div class="d-flex me-3">
           <input id="search-input" class="form-control me-3" placeholder="Pokémon" />
           <button id="search-button" class="btn btn-success">Seleccionar</button>
         </div>
-        <div class="col-lg-6 d-flex">
+        <div class="d-flex">
           <input id="search-input-cpu" class="form-control me-3" placeholder="CPU" />
           <button id="search-button-cpu" class="btn btn-success">Seleccionar</button>
         </div>
@@ -36,7 +36,7 @@
               <div class="px-3">
                 <div class="hp-bar rounded"></div>
               </div>
-              <div class="p-3" class="d-flex justify-content-end w-100">
+              <div class="d-flex justify-content-end w-100 p-3">
                 <span id="hp"></span>
               </div>
           </div>
@@ -44,14 +44,14 @@
         </div>
         <div id="cpu">
           <img id="sprite-cpu" style="visibility: hidden;" />
-          <div class="pokemon-card rounded bg-white w-50">
+          <div class="ms-auto pokemon-card rounded bg-white w-50">
             <div class="p-3">
               <span id="pokemon-name-cpu"></span>
             </div>
             <div class="px-3">
               <div class="hp-bar rounded"></div>
             </div>
-            <div class="p-3" class="d-flex justify-content-end w-100">
+            <div class="d-flex justify-content-end w-100 p-3">
               <span id="hp-cpu"></span>
             </div>
           </div>

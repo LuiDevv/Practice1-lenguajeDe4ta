@@ -66,6 +66,7 @@ class Pokemon {
     }
 
     const pokemon = await response.json();
+    console.log(pokemon);
     const { name, id, weight, height, stats, types, sprites } = pokemon;
     player.pokemon = new Pokemon(name, id, weight, height, stats, types, playerHP, spriteElement);
 
