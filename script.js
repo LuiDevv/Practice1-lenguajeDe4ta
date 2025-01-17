@@ -22,7 +22,7 @@ const gameTerminal = document.getElementById("game-terminal");
 let player1 = { pokemon: null };
 let cpu = { pokemon: null };
 
-const pokemonUrl = "https://pokeapi-proxy.freecodecamp.rocks/api/pokemon";
+const pokemonUrl = "https://pokeapi.co/api/v2/pokemon";
 
 class Pokemon {
   constructor(name, id, weight, height, stats, types, hpElement, spriteElement) {
@@ -64,6 +64,7 @@ class Pokemon {
     }
 
     const pokemon = await response.json();
+    console.log(pokemon.stats);
     const { name, id, weight, height, stats, types, sprites } = pokemon;
     player.pokemon = new Pokemon(name, id, weight, height, stats, types, playerHP, spriteElement);
 
@@ -131,7 +132,7 @@ class Pokemon {
 }
 
 const showMessage = (message) => {
-  gameTerminal.innerHTML += `<p>${message.toUpperCase()}</p>`;
+  gameTerminal.innerHTML = `<p>${message.toUpperCase()}</p>`;
 }
 
 // Event listeners
