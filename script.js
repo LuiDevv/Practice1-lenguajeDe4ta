@@ -31,11 +31,20 @@ class Pokemon {
     this.weight = weight;
     this.height = height;
     this.attack = Pokemon.findStat(stats, "attack");
-    this.hp = Pokemon.findStat(stats, "hp");
+    this.maxHp = Pokemon.findStat(stats, "hp");
+    this.hp = this.maxHp;
     this.types = types;
     this.hpElement = hpElement;
     this.spriteElement = spriteElement;
     this.blinkInterval = null; // Controla el parpadeo
+    this.defense = Pokemon.findStat(stats, "defense");
+  }
+
+  calculateDamage(attack, defense, multiplier = 1) {
+    const baseDamage = Math.floor(Math.random() * attack) + 1;
+    const adjustedDefense = Math.max(0, defense - attack * 0.2); 
+    const reducedDamage = Math.max(1, Math.floor(baseDamage * multiplier - adjustedDefense));
+    return reducedDamage;
   }
 
   static findStat(stats, name) {
@@ -49,7 +58,7 @@ class Pokemon {
     try {
       response = await fetch(`${pokemonUrl}/${query}`);
     } catch (err) {
-      showMessage("Pokémon not found");
+      showMessage("Pokémon no encontrado");
       console.log(err);
       return;
     }
@@ -81,8 +90,13 @@ class Pokemon {
   }
 
   performAttack(defender) {
-    const damage = Math.floor(Math.random() * this.attack) + 1;
+    const damage = this.calculateDamage(this.attack, defender.defense);
     defender.hp -= damage;
+
+    // Attack animation
+    defender.spriteElement.classList.add('receive-attack');
+    setTimeout(() => defender.spriteElement.classList.remove('receive-attack'), 500);
+
     if (defender.hp < 0) defender.hp = 0;
 
     defender.hpElement.textContent = defender.hp;
@@ -94,7 +108,7 @@ class Pokemon {
     }
 
     if (defender.hp === 0) {
-      showMessage(`${defender.name} ha sido derrotado.`);
+      alert(`${defender.name} ha sido derrotado.`);
       defender.stopBlinking();
       location.reload();
     }
@@ -117,7 +131,7 @@ class Pokemon {
 }
 
 const showMessage = (message) => {
-  gameTerminal.textContent = message;
+  gameTerminal.innerHTML += `<p>${message.toUpperCase()}</p>`;
 }
 
 // Event listeners
