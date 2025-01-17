@@ -15,6 +15,9 @@ const attackButton = document.getElementById("attack-button");
 const healButton = document.getElementById("heal-button");
 const runButton = document.getElementById("run-button");
 
+// Game terminal
+const gameTerminal = document.getElementById("game-terminal");
+
 // Players
 let player1 = { pokemon: null };
 let cpu = { pokemon: null };
@@ -46,7 +49,7 @@ class Pokemon {
     try {
       response = await fetch(`${pokemonUrl}/${query}`);
     } catch (err) {
-      alert("Pokémon not found");
+      showMessage("Pokémon not found");
       console.log(err);
       return;
     }
@@ -84,14 +87,14 @@ class Pokemon {
 
     defender.hpElement.textContent = defender.hp;
 
-    alert(`${this.name} ha atacado a ${defender.name} causando ${damage} de daño.`);
+    showMessage(`${this.name} ha atacado a ${defender.name} causando ${damage} de daño.`);
 
     if (defender.hp <= 20) {
       defender.startBlinking();
     }
 
     if (defender.hp === 0) {
-      alert(`${defender.name} ha sido derrotado.`);
+      showMessage(`${defender.name} ha sido derrotado.`);
       defender.stopBlinking();
       location.reload();
     }
@@ -105,12 +108,16 @@ class Pokemon {
     }
     this.hpElement.textContent = this.hp;
 
-    alert(`${this.name} se ha curado ${healAmount} puntos de vida.`);
+    showMessage(`${this.name} se ha curado ${healAmount} puntos de vida.`);
 
     if (this.hp > 20) {
       this.stopBlinking();
     }
   }
+}
+
+const showMessage = (message) => {
+  gameTerminal.textContent = message;
 }
 
 // Event listeners
@@ -124,7 +131,7 @@ searchButtonCPU.addEventListener("click", () =>
 
 attackButton.addEventListener("click", () => {
   if (!player1.pokemon || !cpu.pokemon) {
-    alert("Primero selecciona tus Pokémon.");
+    showMessage("Primero selecciona tus Pokémon.");
     return;
   }
 
@@ -139,7 +146,7 @@ attackButton.addEventListener("click", () => {
 
 healButton.addEventListener("click", () => {
   if (!player1.pokemon || !cpu.pokemon) {
-    alert("Primero selecciona tus Pokémon.");
+    showMessage("Primero selecciona tus Pokémon.");
     return;
   }
 
@@ -153,7 +160,7 @@ healButton.addEventListener("click", () => {
 });
 
 const run = () => {
-  alert("Has huido del combate. ¡Juego terminado!");
+  showMessage("Has huido del combate. ¡Juego terminado!");
   location.reload();
 };
 

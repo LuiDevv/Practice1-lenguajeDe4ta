@@ -101,3 +101,16 @@ button:active {
     transform: scale(0.95);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
+
+
+#game-terminal {
+    position: absolute;
+    bottom: 1rem;
+    height: 10vh;
+    background-color: rgb(0, 0, 0, 0.7);
+    z-index: 999;
+    width: 100%;
+    border-top: 2px solid red;
+    border-bottom: 2px solid red;
+    color: #fff;
+}
