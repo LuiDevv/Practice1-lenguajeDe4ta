@@ -15,6 +15,8 @@ const attackButton = document.getElementById("attack-button");
 const healButton = document.getElementById("heal-button");
 const runButton = document.getElementById("run-button");
 
+const hitAnimationDuration = 2500;
+
 // Game terminal
 const gameTerminal = document.getElementById("game-terminal");
 
@@ -31,8 +33,8 @@ class Pokemon {
     this.weight = weight;
     this.height = height;
     this.attack = Pokemon.findStat(stats, "attack");
-    this.maxHp = Pokemon.findStat(stats, "hp");
-    this.hp = this.maxHp;
+    this.maxHP = Pokemon.findStat(stats, "hp");
+    this.hp = this.maxHP;
     this.types = types;
     this.hpElement = hpElement;
     this.spriteElement = spriteElement;
@@ -64,14 +66,13 @@ class Pokemon {
     }
 
     const pokemon = await response.json();
-    console.log(pokemon.stats);
     const { name, id, weight, height, stats, types, sprites } = pokemon;
     player.pokemon = new Pokemon(name, id, weight, height, stats, types, playerHP, spriteElement);
 
     playerName.textContent = name.toUpperCase();
     spriteElement.src = sprites[position];
     spriteElement.style.visibility = "visible";
-    playerHP.textContent = Pokemon.findStat(stats, "hp");
+    playerHP.textContent = `${player.pokemon.hp}/${player.pokemon.maxHP}`;
   }
 
   startBlinking() {
@@ -96,11 +97,11 @@ class Pokemon {
 
     // Attack animation
     defender.spriteElement.classList.add('receive-attack');
-    setTimeout(() => defender.spriteElement.classList.remove('receive-attack'), 500);
+    setTimeout(() => defender.spriteElement.classList.remove('receive-attack'), hitAnimationDuration);
 
     if (defender.hp < 0) defender.hp = 0;
 
-    defender.hpElement.textContent = defender.hp;
+    defender.hpElement.textContent = `${defender.hp}/${defender.maxHP}`;
 
     showMessage(`${this.name} ha atacado a ${defender.name} causando ${damage} de daño.`);
 
@@ -155,7 +156,7 @@ attackButton.addEventListener("click", () => {
   if (cpu.pokemon.hp > 0) {
     setTimeout(() => {
       cpu.pokemon.performAttack(player1.pokemon, hp);
-    }, 1000);
+    }, hitAnimationDuration);
   }
 });
 

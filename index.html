@@ -29,14 +29,32 @@
       <!-- Contenedor de la arena -->
       <div class="arena rounded border shadow-sm position-relative">
         <div id="player">
-          <h5>Pokémon: <span id="pokemon-name"></span></h5>
-          <h6>HP: <span id="hp"></span></h6>
+          <div class="pokemon-card rounded bg-white w-50">
+              <div class="p-3">
+                <span id="pokemon-name"></span>
+              </div>
+              <div class="px-3">
+                <div class="hp-bar rounded"></div>
+              </div>
+              <div class="p-3" class="d-flex justify-content-end w-100">
+                <span id="hp"></span>
+              </div>
+          </div>
           <img id="sprite" style="visibility: hidden;" />
         </div>
         <div id="cpu">
           <img id="sprite-cpu" style="visibility: hidden;" />
-          <h5>Pokémon: <span id="pokemon-name-cpu"></span></h5>
-          <h6>HP: <span id="hp-cpu"></span></h6>
+          <div class="pokemon-card rounded bg-white w-50">
+            <div class="p-3">
+              <span id="pokemon-name-cpu"></span>
+            </div>
+            <div class="px-3">
+              <div class="hp-bar rounded"></div>
+            </div>
+            <div class="p-3" class="d-flex justify-content-end w-100">
+              <span id="hp-cpu"></span>
+            </div>
+          </div>
         </div>
         <div id="game-terminal" class="px-5 p-3">
           
