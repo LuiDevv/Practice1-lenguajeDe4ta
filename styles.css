@@ -68,16 +68,14 @@ header {
 
 #player {
     bottom: -20.5vh;
-    color: #ffcccb;
     position: absolute;
     right: 27vw;
 }
 
 #cpu {
-    color: #c1e1ff;
     left: 42vw;
     position: absolute;
-    top: -12.5vh;
+    top: -15.5vh;
 }
 
 /* Sprite Styles */
