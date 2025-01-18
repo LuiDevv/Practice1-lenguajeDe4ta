@@ -131,6 +131,12 @@ button:active {
     right: 5vh;
 }
 
+#player .pokemon-card {
+    position: absolute;
+    bottom: 60vh;
+    left: -25vh;
+}
+
 /* Animations */
 @keyframes attack {
     0%, 100% {
