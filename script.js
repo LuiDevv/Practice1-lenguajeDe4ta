@@ -10,6 +10,9 @@ const spriteCPU = document.getElementById("sprite-cpu");
 const hp = document.getElementById("hp");
 const hpCPU = document.getElementById("hp-cpu");
 
+const playerHpEl = document.getElementById('playerHP');
+const cpuHPEl = document.getElementById('cpuHP');
+
 // Botones de acciones
 const attackButton = document.getElementById("attack-button");
 const healButton = document.getElementById("heal-button");
@@ -29,7 +32,7 @@ let cpu = { pokemon: null };
 const pokemonUrl = "https://pokeapi.co/api/v2/pokemon";
 
 class Pokemon {
-  constructor(name, id, weight, height, stats, types, hpElement, spriteElement) {
+  constructor(name, id, weight, height, stats, types, hpElement, hpBar, spriteElement) {
     this.name = name;
     this.id = id;
     this.weight = weight;
@@ -37,6 +40,7 @@ class Pokemon {
     this.attack = Pokemon.findStat(stats, "attack");
     this.maxHP = Pokemon.findStat(stats, "hp");
     this.hp = this.maxHP;
+    this.hpBar = hpBar,
     this.types = types;
     this.hpElement = hpElement;
     this.spriteElement = spriteElement;
@@ -97,6 +101,7 @@ class Pokemon {
 
     // Actualizar en el DOM la vida del defensor
     defender.hpElement.textContent = `${defender.hp}/${defender.maxHP}`;
+    defender.hpBar.style.width = `${defender.hp * 100 / defender.maxHP}%`;
 
     // Mostrar en la terminal un mensaje que indique lo sucedido
     showMessage(`<b>${this.name}</b> ha atacado a <b>${defender.name}</b> causando <b>${damage}</b> de daño.`);
@@ -122,7 +127,7 @@ class Pokemon {
     location.reload();
   };
 
-  static async searchPokemon(query, playerName, spriteElement, position, playerHP, player) {
+  static async searchPokemon(query, playerName, spriteElement, position, playerHP, hpBar, player) {
     // Fetchear pokémon por su nombre
     let error = false;
     const response = await fetch(`${pokemonUrl}/${query}`).catch((err) => {
@@ -150,7 +155,8 @@ class Pokemon {
       height, 
       stats, 
       types, 
-      playerHP, 
+      playerHP,
+      hpBar,
       spriteElement
     );
 
@@ -189,7 +195,8 @@ searchButton.addEventListener("click", () =>
     pokemonName, 
     sprite, 
     "back_default", 
-    hp, 
+    hp,
+    playerHpEl,
     player1
   )
 );
@@ -201,6 +208,7 @@ searchButtonCPU.addEventListener("click", () =>
     spriteCPU, 
     "front_default", 
     hpCPU, 
+    cpuHPEl,
     cpu
   )
 );
