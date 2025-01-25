@@ -9,9 +9,8 @@ const sprite = document.getElementById("sprite");
 const spriteCPU = document.getElementById("sprite-cpu");
 const hp = document.getElementById("hp");
 const hpCPU = document.getElementById("hp-cpu");
-
-const playerHpEl = document.getElementById('playerHP');
-const cpuHPEl = document.getElementById('cpuHP');
+const hpBar = document.getElementById("hp-bar");
+const hpBarCPU = document.getElementById("hp-bar-cpu");
 
 // Botones de acciones
 const attackButton = document.getElementById("attack-button");
@@ -32,7 +31,7 @@ let cpu = { pokemon: null };
 const pokemonUrl = "https://pokeapi.co/api/v2/pokemon";
 
 class Pokemon {
-  constructor(name, id, weight, height, stats, types, hpElement, hpBar, spriteElement) {
+  constructor(name, id, weight, height, stats, types, hpElement, spriteElement, hpBar) {
     this.name = name;
     this.id = id;
     this.weight = weight;
@@ -46,6 +45,7 @@ class Pokemon {
     this.spriteElement = spriteElement;
     this.blinkInterval = null; // Controla el parpadeo
     this.defense = Pokemon.findStat(stats, "defense");
+    this.hpBar = hpBar;
   }
 
   calculateDamage(attack, defense) {
@@ -89,6 +89,7 @@ class Pokemon {
     // Calcular daño que realiza el ataque al defensor
     const damage = this.calculateDamage(this.attack, defender.defense);
     defender.hp -= damage;  // Actualizar la vida del defensor
+    defender.updateBar();
 
     // Comenzar animación del ataque al añadir la clase con el keyframes
     // de la animación al defensor, y luego de una duración quitarsela.
@@ -127,7 +128,7 @@ class Pokemon {
     location.reload();
   };
 
-  static async searchPokemon(query, playerName, spriteElement, position, playerHP, hpBar, player) {
+  static async searchPokemon(query, playerName, spriteElement, position, playerHP, player, hpBar) {
     // Fetchear pokémon por su nombre
     let error = false;
     const response = await fetch(`${pokemonUrl}/${query}`).catch((err) => {
@@ -155,16 +156,21 @@ class Pokemon {
       height, 
       stats, 
       types, 
-      playerHP,
-      hpBar,
-      spriteElement
+      playerHP, 
+      spriteElement,
+      hpBar
     );
 
+    console.log(hpBar);
     // Actualizar en el DOM el nombre del pokémon en la tarjeta del jugador correspondido
     playerName.textContent = name.toUpperCase();
     spriteElement.src = sprites[position];  // Agregar la foto en la posición especificada
     spriteElement.style.visibility = "visible"; // Hacer visible la foto
     playerHP.textContent = `${player.pokemon.hp}/${player.pokemon.maxHP}`;  // Poner en el DOM la vida del pokémon
+  }
+
+  updateBar() {
+    this.hpBar.style.width = `${(this.hp * 100) / (this.maxHP)}%`
   }
 
   startBlinking() {
@@ -195,9 +201,9 @@ searchButton.addEventListener("click", () =>
     pokemonName, 
     sprite, 
     "back_default", 
-    hp,
-    playerHpEl,
-    player1
+    hp, 
+    player1,
+    hpBar
   )
 );
 
@@ -208,8 +214,8 @@ searchButtonCPU.addEventListener("click", () =>
     spriteCPU, 
     "front_default", 
     hpCPU, 
-    cpuHPEl,
-    cpu
+    cpu,
+    hpBarCPU
   )
 );
 

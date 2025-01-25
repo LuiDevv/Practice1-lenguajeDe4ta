@@ -122,7 +122,19 @@ button:active {
     overflow-y: auto;
     position: absolute;
     width: 100%;
-    z-index: 999;
+    z-index: 7;
+}
+
+#cpu .pokemon-card {
+    position: absolute;
+    bottom: -15vh;
+    right: 5vh;
+}
+
+#player .pokemon-card {
+    position: absolute;
+    bottom: 60vh;
+    left: -25vh;
 }
 
 /* Animations */
